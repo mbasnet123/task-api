@@ -11,3 +11,8 @@ router = APIRouter()
 async def get_tasks(db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     tasks= task_service.get_tasks(db, current_user.id)
     return tasks
+
+@router.get("/tasks/{task_id}", response_model=TaskResponse)
+async def get_task_by_id(task_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+    task = task_service.get_task_by_id(db, current_user.id, task_id)
+    return task
