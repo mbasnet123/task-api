@@ -4,6 +4,7 @@ from schemas.user import UserCreate
 import repositories.user_repository as user_repo
 from jose import jwt
 import os
+from datetime import datetime, timedelta
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -22,5 +23,5 @@ def login_user(db: Session, email:str, password: str):
     password_verified = pwd_context.verify(password, existing_user.password)
     if not password_verified:
         raise ValueError("password not verified")
-    token = jwt.encode({"sub": existing_user.email}, os.getenv("SECRET_KEY"), algorithm=os.getenv("ALGORITHM"))
+    token = jwt.encode({"sub": existing_user.email, "exp": datetime.utcnow() + timedelta(minutes=30)}, os.getenv("SECRET_KEY"), algorithm=os.getenv("ALGORITHM"))
     return token
