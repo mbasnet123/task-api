@@ -26,7 +26,9 @@ def update_task(db: Session, task: TaskCreate, task_id: int, user_id: int):
     return task_data
 
 def delete_task(db: Session, user_id: int, task_id: int):
+    # print(f"Deleting task with user_id: {user_id}, task_id: {task_id}")
     task = db.query(Task).filter(Task.user_id == user_id, Task.id == task_id).first()
+    # print(f"Found task: {task}")
     db.delete(task)
     db.commit()
 

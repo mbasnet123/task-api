@@ -21,7 +21,9 @@ def update_task(db: Session, task: TaskCreate, task_id: int, user_id: int):
     return task_repo.update_task(db, task, task_id, user_id)
 
 def delete_task(db: Session, task_id: int, user_id: int):
+    # print(f"Service - user_id: {user_id}, task_id: {task_id}")
     given_task = task_repo.get_task_by_id(db, user_id, task_id)
+    # print(f"Found task: {given_task}")
     if not given_task:
         raise ValueError("task with given id doesn't exist")
     task_repo.delete_task(db, user_id, task_id)

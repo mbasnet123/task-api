@@ -55,7 +55,7 @@ async def update_task(task: TaskCreate, task_id: int,  db: Session = Depends(get
 @router.delete("/tasks/{task_id}")
 async def delete_task(task_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     try:
-        task_service.delete_task(db, current_user.id, task_id)
+        task_service.delete_task(db, task_id, current_user.id)
     except ValueError as e:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
